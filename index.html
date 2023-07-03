@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online Chat</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f3f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 100%;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="password"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #chatbox {
+      width: 100%;
+      height: calc(100vh - 240px);
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    #input {
+      resize: none;
+    }
+
+    #submit {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #submit:hover {
+      background-color: #45a049;
+    }
+
+    .message-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .message-container.own {
+      align-items: flex-end;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #e2e8f0;
+      font-weight: bold;
+    }
+
+    .message.own {
+      background-color: #d1fae5;
+    }
+
+    .message-info {
+      display: flex;
+      justify-content: space-between;
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .no-messages {
+      display: none;
+      text-align: center;
+      color: #777;
+    }
+
+    .author-details {
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .version {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      color: #777;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function checkPassword() {
+      var password = document.getElementById("password").value;
+
+      if (password === "6969") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("chat").style.display = "block";
+      } else {
+        alert("Incorrect password");
+      }
+    }
+
+    function sendMessage() {
+      var message = document.getElementById("input").value;
+      var chatbox = document.getElementById("chatbox");
+      var password = document.getElementById("password").value;
+
+      if (message !== "" && password === "6969") {
+        var name = localStorage.getItem("username");
+        var newMessageContainer = document.createElement("div");
+        newMessageContainer.classList.add("message-container");
+
+        if (name !== null) {
+          newMessageContainer.classList.add("own");
+        }
+
+        var newMessage = document.createElement("div");
+        newMessage.classList.add("message");
+        newMessage.innerText = message;
+
+        var messageInfo = document.createElement("div");
+        messageInfo.classList.add("message-info");
+        var timestamp = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+        messageInfo.innerText = name + " • " + timestamp;
+
+        newMessageContainer.appendChild(newMessage);
+        newMessageContainer.appendChild(messageInfo);
+        chatbox.appendChild(newMessageContainer);
+
+        // Clear the input field
+        document.getElementById("input").value = "";
+
+        // Hide the "No messages available" text
+        var noMessages = document.getElementById("no-messages");
+        noMessages.style.display = "none";
+      }
+    }
+    
+    function showChat() {
+      var name = localStorage.getItem("username");
+      var password = document.getElementById("password").value;
+
+      if (name !== null && password === "6969") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("chat").style.display = "block";
+        document.getElementById("greeting").textContent = "Welcome, " + name + "!";
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container" id="login">
+    <h1>Online Chat</h1>
+    <div class="form-group">
+      <label for="name">Enter Your Name</label>
+      <input type="text" id="name" placeholder="Your Name" />
+    </div>
+    <div class="form-group">
+      <label for="password">Enter Password</label>
+      <input type="password" id="password" placeholder="Password" />
+    </div>
+    <button id="submit" onclick="checkPassword()">Enter Chat</button>
+  </div>
+
+  <div class="container" id="chat" style="display: none;">
+    <div id="chatbox">
+      <div id="no-messages" class="no-messages">No messages available</div>
+    </div>
+    <textarea id="input" placeholder="Type your message here"></textarea>
+    <button id="submit" onclick="sendMessage()">Send</button>
+  </div>
+
+  <div class="author-details">
+    Author: Mangukiya Ved | Coding Languages: HTML, CSS, JavaScript | Made on 2-7-2023
+  </div>
+
+  <div class="version">Version 1.1</div>
+
+  <script>
+    showChat();
+  </script>
+</body>
+</html>
